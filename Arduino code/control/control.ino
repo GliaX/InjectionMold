@@ -3,68 +3,73 @@ int MaxlimitSwitchPin=3;//End limit switch
 int DCMOTORF=1;//Move DC motor CW
 int DCMOTORB=0;//Move DC motor CCW
 int RelayACMotorPin=2;//interrupt, signal for relay that control AC Motor
-int dely0=5;
-int dely1=6;
-int dely2=7;
-int dely3=8;
-int dely4=9;
+int bot0=5;
+int bot1=6;
+int bot2=7;
+int bot3=8;
+int bot4=9;
 
-void setup(){
+void setup() {
   pinMode(RelayACMotorPin,OUTPUT);
   pinMode(DCMOTORF,OUTPUT);
   pinMode(DCMOTORB,OUTPUT); 
   pinMode(MinlimitSwitchPin,INPUT);
   pinMode(MaxlimitSwitchPin,INPUT);
-  pinMode(dely0,INPUT);
-  pinMode(dely1,INPUT);
-  pinMode(dely2,INPUT);
-  pinMode(dely3,INPUT);
-  pinMode(dely4,INPUT);
-
-}
-void loop(){
-  digitalWrite(dely0,LOW);
-  digitalWrite(dely1,LOW);
-  digitalWrite(dely2,LOW);
-  digitalWrite(dely3,LOW);
-  digitalWrite(dely4,LOW);
-        if(digitalRead(MinlimitSwitchPin) == HIGH){
-           MoveDCMotorF();
-           delay(3000);
-           MoveDCMotorB();
-           delay(3000);
-           MoveDCMotorF();
-           digitalWrite(RelayACMotorPin, LOW);
-           digitalRead(MinlimitSwitchPin) == LOW;
-        }
-        else if(digitalRead(MaxlimitSwitchPin) == HIGH){
-          StopDCMotor();
-          digitalWrite(RelayACMotorPin, HIGH);
-          if(digitalRead(dely0)==HIGH){
-                      delay(18000);
-          }
-          if(digitalRead(dely1)==HIGH){
-                      delay(25000);
-          }
-          if(digitalRead(dely2)==HIGH){
-                      delay(30000);
-          }
-          if(digitalRead(dely3)==HIGH){
-                      delay(35000);
-          }
-          if(digitalRead(dely4)==HIGH){
-                      delay(40000);
-          }
-          digitalWrite(RelayACMotorPin, LOW);
-          delay(25000);
-          MoveDCMotorB();
-          delay(3000);
-          MoveDCMotorB();
-          digitalRead(MaxlimitSwitchPin) == LOW;      
-       }
-       
+  pinMode(bot0,INPUT);
+  pinMode(bot1,INPUT);
+  pinMode(bot2,INPUT);
+  pinMode(bot3,INPUT);
+  pinMode(bot4,INPUT);
 }
 
+void loop() {
+int count1=0;
+int count2=0;
+int count3=0;
+int count4=0;
+int count5=0;
+if(digitalRead(MinlimitSwitchPin) == HIGH){
+   MoveDCMotorF();
+   delay(3000);
+   MoveDCMotorB();
+   delay(3000);
+   MoveDCMotorF();
+   digitalWrite(RelayACMotorPin, LOW);
+   digitalRead(MinlimitSwitchPin) == LOW;
+}
+else if(digitalRead(MaxlimitSwitchPin) == HIGH){
+  StopDCMotor();
+  digitalWrite(RelayACMotorPin, HIGH);
+  int D = 0;
+  if(digitalRead(bot0)==HIGH){
+    count1=2000;
+  }
+  if(digitalRead(bot1)==HIGH){
+    count2=5000;
+  }
+  if(digitalRead(bot2)==HIGH){
+    count3=8000;
+  }
+  if(digitalRead(bot3)==HIGH){
+    count4=11000;
+  }
+  if(digitalRead(bot4)==HIGH){
+    count5=15000;
+  }
+D=count1+count2+count3+count4+count5;
+delay(15000);
+delay(D);
+D = 0;
+digitalWrite(RelayACMotorPin, LOW);
+delay(25000);
+MoveDCMotorB();
+delay(3000);
+MoveDCMotorB();
+digitalRead(MaxlimitSwitchPin) == LOW;
+}
+}
+
+//******************************
 
 //This function is used for move DC motor to CW
    int MoveDCMotorF (){
@@ -80,4 +85,4 @@ int MoveDCMotorB(){
 int StopDCMotor(){
   analogWrite(DCMOTORF,LOW);
   digitalWrite(DCMOTORB, LOW);  
-}
+}//**************************************
